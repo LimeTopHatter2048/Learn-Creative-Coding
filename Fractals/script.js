@@ -12,11 +12,14 @@ window.addEventListener('load', function(){
 
     // effect settings
     let size = 200;
-    let sides = 20;
-    let maxLevel = 10;
+    let sides = 5;
+    let maxLevel = 4; // how many drawBranch()
+    let scale = 0.5; // big, small
+    let spread = 0.8; //rotate()
+    let branches = 2; //translate()
     ctx.save();
     ctx.translate(canvas.width/2,canvas.height/2);
-    ctx.scale(1, 1);
+    ctx.scale(scale,scale);
     ctx.rotate(0);
     //ctx.fillRect(0,0,canvas.width,canvas.height);
 
@@ -26,11 +29,22 @@ window.addEventListener('load', function(){
         ctx.moveTo(0,0);
         ctx.lineTo(size, 0);
         ctx.stroke();
-        ctx.translate(100,0);
-        ctx.rotate(0.6);
-        ctx.scale(0.8, 0.8);
+        for (let i = 0; i < branches; i++){
+            ctx.save();
+            ctx.translate(size- (size/branches) * i, 0);
+            ctx.rotate(spread);
+            ctx.scale(scale,scale);
+            drawBranch(level +1);
+            ctx.restore(scale, scale);
 
-        drawBranch(level +1);
+            ctx.save();
+            ctx.translate(size- (size/branches) * i, 0);
+            ctx.rotate(-spread);
+            ctx.scale(scale,scale);
+            drawBranch(level +1);
+            ctx.restore(scale, scale);
+        }
+        
     }
     drawBranch(0);
 
