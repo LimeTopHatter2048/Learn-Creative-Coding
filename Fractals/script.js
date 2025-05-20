@@ -6,22 +6,22 @@ window.addEventListener('load', function(){
 
     // canvas settings
     ctx.fillStyle = 'green';
-    ctx.strokeStyle = 'yellow';
-    ctx.lineWidth = 30;
+    ctx.strokeStyle = 'gold';
+    ctx.lineWidth = 10;
     ctx.lineCap = 'round';
+    ctx.shadowColor = 'rgba(0,0,0,0.7)';
+    ctx.shadowOffsetX = 10;
+    ctx.shadowOffsetY = 5;
+    ctx.shadowBlur = 10;
 
     // effect settings
-    let size = 200;
+    let size = canvas.width < canvas.height ? canvas.width * 0.3: canvas.height * 0.3;
     let sides = 5;
     let maxLevel = 4; // how many drawBranch()
     let scale = 0.5; // big, small
     let spread = 0.8; //rotate()
     let branches = 2; //translate()
-    ctx.save();
-    ctx.translate(canvas.width/2,canvas.height/2);
-    ctx.scale(scale,scale);
-    ctx.rotate(0);
-    //ctx.fillRect(0,0,canvas.width,canvas.height);
+    let color = 'hsl('+ Math.random() * 360 +', 100%, 50%)';
 
     function drawBranch(level){
         if(level > maxLevel) return;
@@ -46,11 +46,18 @@ window.addEventListener('load', function(){
         }
         
     }
-    drawBranch(0);
 
-/*     for (let i = 0; i< sides; i++){
-        ctx.rotate((Math.PI * 2)/sides);
-    } */
-    
-    ctx.restore();
+    function drawFractal(){
+        ctx.strokeStyle = color;
+        ctx.save();
+        ctx.translate(canvas.width/2,canvas.height/2);
+        ctx.scale(scale,scale);
+        ctx.rotate(0);
+        for (let i = 0; i< sides; i++){
+            ctx.rotate((Math.PI * 2)/sides);
+            drawBranch(0);
+        }
+        ctx.restore();
+    }
+    drawFractal();
 });
