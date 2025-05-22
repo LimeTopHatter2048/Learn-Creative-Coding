@@ -28,6 +28,21 @@ window.addEventListener('load', function(){
 
     // controls
     const RandomizeButton = document.getElementById('randomizeButton');
+    const slider_spread = document.getElementById('spread');
+    const label_spread = document.querySelector('[for ="spread"]');
+    slider_spread.addEventListener('change', function(e){
+        spread = e.target.value;
+        updateSliders()
+        drawFractal();
+    });
+
+    slider_sides = document.getElementById('sides');
+    label_sides = document.querySelector('[for ="sides"]');
+    slider_sides.addEventListener('change', function(e){
+        sides = e.target.value;
+        updateSliders()
+        drawFractal();
+    });  
 
     function drawBranch(level){
         if(level > maxLevel) return;
@@ -80,9 +95,19 @@ window.addEventListener('load', function(){
         spread = Math.random() * 2.9 + 0.1; //rotate()
         color = 'hsl('+ Math.random() * 360 +', 100%, 50%)';
         lineWidth = Math.floor(Math.random() * 20 + 10); // ctx.value
+        RandomizeButton.style.backgroundColor = color;
     }
     RandomizeButton.addEventListener('click', function(){
+        updateSliders()
         randomizeFractal()
         drawFractal();
     });
+
+    function updateSliders(){
+        slider_spread.value = spread;
+        label_spread.innerText = 'Spread: ' + Number(spread).toFixed(1);
+        slider_sides.value = sides;
+        label_sides.innerText = 'Sides :' + sides;
+    }
+    updateSliders();
 });
