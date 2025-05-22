@@ -7,7 +7,7 @@ window.addEventListener('load', function(){
     // canvas settings
     ctx.fillStyle = 'green';
     ctx.strokeStyle = 'gold';
-    ctx.lineWidth = 10;
+    
     ctx.lineCap = 'round';
     ctx.shadowColor = 'rgba(0,0,0,0.7)';
     ctx.shadowOffsetX = 10;
@@ -16,12 +16,18 @@ window.addEventListener('load', function(){
 
     // effect settings
     let size = canvas.width < canvas.height ? canvas.width * 0.3: canvas.height * 0.3;
+    const maxLevel = 4; // how many drawBranch()
+    const branches = 2; //translate()
+
+
     let sides = 5;
-    let maxLevel = 4; // how many drawBranch()
     let scale = 0.5; // big, small
     let spread = 0.8; //rotate()
-    let branches = 2; //translate()
     let color = 'hsl('+ Math.random() * 360 +', 100%, 50%)';
+    let lineWidth = Math.floor(Math.random() * 20 + 10); // ctx.value
+
+    // controls
+    const RandomizeButton = document.getElementById('randomizeButton');
 
     function drawBranch(level){
         if(level > maxLevel) return;
@@ -32,24 +38,31 @@ window.addEventListener('load', function(){
         for (let i = 0; i < branches; i++){
             ctx.save();
             ctx.translate(size- (size/branches) * i, 0);
-            ctx.rotate(spread);
             ctx.scale(scale,scale);
-            drawBranch(level +1);
-            ctx.restore(scale, scale);
 
+            // positive  
             ctx.save();
-            ctx.translate(size- (size/branches) * i, 0);
+            ctx.rotate(spread);
+            drawBranch(level +1);
+            ctx.restore();
+
+            // negative
+            ctx.save();
             ctx.rotate(-spread);
             ctx.scale(scale,scale);
             drawBranch(level +1);
-            ctx.restore(scale, scale);
+            ctx.restore();
+
+            ctx.restore();
         }
         
     }
 
     function drawFractal(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
         ctx.strokeStyle = color;
         ctx.save();
+        ctx.lineWidth = lineWidth;
         ctx.translate(canvas.width/2,canvas.height/2);
         ctx.scale(scale,scale);
         ctx.rotate(0);
@@ -60,4 +73,16 @@ window.addEventListener('load', function(){
         ctx.restore();
     }
     drawFractal();
+
+    function randomizeFractal(){
+        sides = Math.floor(Math.random() * 7 + 2);
+        scale = Math.random() * 0.2 + 0.4; // big, small
+        spread = Math.random() * 2.9 + 0.1; //rotate()
+        color = 'hsl('+ Math.random() * 360 +', 100%, 50%)';
+        lineWidth = Math.floor(Math.random() * 20 + 10); // ctx.value
+    }
+    RandomizeButton.addEventListener('click', function(){
+        randomizeFractal()
+        drawFractal();
+    });
 });
