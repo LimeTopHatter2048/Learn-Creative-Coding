@@ -10,21 +10,40 @@
     top: 50%;
     transform: translate(-50%, -50%);
 }
-#controls{
+
+#controls {
     position: absolute;
-    padding: 10px;
+    padding: 2vh;
     border: 2px solid white;
-    left: 20px;
-    top: 20px;
-    width: 250px;
-    background: rgba(255,255,255,0.15);
+    left: 2vw;
+    top: 2vh;
+    width: 20vw; /* 20% of viewport width */
+    background: rgba(255, 255, 255, 0.15);
 }
-button{
-    padding: 10px 40px;
-    width: 225px;
-    font-size: 20px;
+
+button {
+    padding: 1vh 1vw;
+    width: 90%; /* Take up most of #controls' width */
+    font-size: 1.2vw; /* scales with window width */
 }
-label, input{
+
+label, input {
     color: white;
-    font-size: 15px;
+    font-size: 1vw; /* responsive font size */
+}
+input[type="range"] {
+    width: 90%;         /* Makes slider fit inside the controls box */
+    margin: 10px 0;     /* Add spacing between sliders */
+    height: 2vh;        /* Adjust height using viewport height */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1vw;     /* Responsive text size */
+    color: white;
+}
+
+input {
+    font-size: 1vw;     /* Optional, in case you add text inputs later */
 }

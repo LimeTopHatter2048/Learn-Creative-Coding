@@ -120,4 +120,28 @@ window.addEventListener('load', function(){
         label_sides.innerText = 'Sides :' + sides;
     }
     updateSliders();
+
+    window.addEventListener('resize', function(){
+        canvas.width = window.innerWidth * 0.8;
+        canvas.height = window.innerHeight * 0.8;
+        size = canvas.width < canvas.height ? canvas.width * 0.3: canvas.height * 0.3;
+        ctx.shadowColor = 'rgba(0,0,0,0.7)';
+        ctx.shadowOffsetX = 10;
+        ctx.shadowOffsetY = 5;
+        ctx.shadowBlur = 10;
+        drawFractal();
+
+        // Resize controls dynamically
+        const controls = document.getElementById('controls');
+        controls.style.width = (window.innerWidth * 0.25) + 'px'; // 25% of window
+        const buttons = controls.querySelectorAll('button');
+        buttons.forEach(btn => {
+            btn.style.fontSize = (window.innerWidth * 0.01 + 10) + 'px';
+        });
+        // Resize input sliders dynamically
+        const sliders = document.querySelectorAll('#controls input[type="range"]');
+        sliders.forEach(slider => {
+            slider.style.width = (window.innerWidth * 0.2) + 'px';  // e.g., 20% of screen
+        });
+    });
 });
