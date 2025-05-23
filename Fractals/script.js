@@ -21,10 +21,10 @@ window.addEventListener('load', function(){
 
 
     let sides = 5;
-    let scale = 0.5; // big, small
+    let scale = 0.6; // big, small
     let spread = 0.8; //rotate()
     let color = 'hsl('+ Math.random() * 360 +', 100%, 50%)';
-    let lineWidth = Math.floor(Math.random() * 20 + 10); // ctx.value
+    let lineWidth = Math.floor(Math.random() * 10 + 5); // ctx.value
 
     // controls
     const RandomizeButton = document.getElementById('randomizeButton');
@@ -49,11 +49,11 @@ window.addEventListener('load', function(){
         if(level > maxLevel) return;
         ctx.beginPath();
         ctx.moveTo(0,0);
-        ctx.lineTo(size, 0);
+        ctx.lineTo(size -5, 0);
         ctx.stroke();
         for (let i = 0; i < branches; i++){
             ctx.save();
-            ctx.translate(size- (size/branches) * i, 0);
+            ctx.translate(size- (size/branches) * i, -1);
             ctx.scale(scale,scale);
 
             // positive  
@@ -62,31 +62,27 @@ window.addEventListener('load', function(){
             drawBranch(level +1);
             ctx.restore();
 
-            // negative
-            ctx.save();
-            ctx.rotate(-spread);
-            ctx.scale(scale,scale);
-            drawBranch(level +1);
-            ctx.restore();
-
             ctx.restore();
         }
-        
+        ctx.beginPath();
+        ctx.arc(0,size, size * 0.1, 0, Math.PI * 2);
+        ctx.fill();
     }
 
     function drawFractal(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.strokeStyle = color;
         ctx.save();
         ctx.lineWidth = lineWidth;
+        ctx.strokeStyle = color;
+        ctx.fillStyle = color;
         ctx.translate(canvas.width/2,canvas.height/2);
-        ctx.scale(scale,scale);
-        ctx.rotate(0);
+
         for (let i = 0; i< sides; i++){
             ctx.rotate((Math.PI * 2)/sides);
             drawBranch(0);
         }
         ctx.restore();
+        RandomizeButton.style.backgroundColor = color;
     }
     drawFractal();
 
